@@ -31,6 +31,7 @@ public class MainView {
     }
 
     public static MainView getInstance() {
+        // 用这种方法可以防止窗口关闭进程结束，可以用来作为后台运行
         if (mainView==null){
             mainView = new MainView();
         }

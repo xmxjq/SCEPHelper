@@ -1,9 +1,17 @@
 package edu.sjtu.SCEP.net.server;
 
+import edu.sjtu.SCEP.net.ResourceURL;
+import org.restlet.Application;
+import org.restlet.Component;
+import org.restlet.Restlet;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
+import org.restlet.resource.Directory;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
+import org.restlet.routing.Router;
+
+import javax.annotation.Resource;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,16 +21,52 @@ import org.restlet.resource.ServerResource;
  * To change this template use File | Settings | File Templates.
  */
 
-public class BackendServer extends ServerResource {
+public class BackendServer extends Application {
+    private static Component component = null;
 
-   public static void main(String[] args) throws Exception {
-      // Create the HTTP server and listen on port 8182
-      new Server(Protocol.HTTP, 8182, BackendServer.class).start();
-   }
 
-   @Get
-   public String toString() {
-      return "hello, world";
-   }
+    public static Component getComponent(){
+        if (component==null){
+            component = new Component();
+            component.getServers().add(Protocol.HTTP, 8182);
+            component.getDefaultHost().attach(new BackendServer());
+
+            return component;
+        } else {
+            return component;
+        }
+    }
+
+    public static void startServer() throws Exception {
+       getComponent().start();
+    }
+
+    public static void stopServer() throws Exception {
+        getComponent().stop();
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        try {
+            BackendServer.startServer();
+        } catch (Exception e) {
+            // Something is wrong.
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public synchronized Restlet createInboundRoot(){
+        Router router = new Router(getContext());
+
+        //router.attachDefault(new Directory(getContext(), "war:///"));
+        router.attach(ResourceURL.ROOT_URL, RootServerResource.class);
+        router.attach(ResourceURL.USER_URL, UserServerResource.class);
+
+        return router;
+    }
+
+
 
 }

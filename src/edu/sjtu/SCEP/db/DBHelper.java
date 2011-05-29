@@ -37,18 +37,19 @@ public class DBHelper {
 
 
     public DBHelper() throws Exception {
-        try {
-			// 创建数据源
-			connectionSource = new JdbcConnectionSource(DATABASE_URL);
-			// 初始化数据库和Dao
-			setupDatabase(connectionSource);
-			System.out.println("\n\nIt seems to have worked\n\n");
-		} finally {
-			// destroy the data source which should close underlying connections
-			if (connectionSource != null) {
-				connectionSource.close();
-			}
-		}
+        connectionSource = new JdbcConnectionSource(DATABASE_URL);
+		// 初始化数据库和Dao
+		setupDatabase(connectionSource);
+    }
+
+    public void close(){
+        try{
+            if (connectionSource != null) {
+		        connectionSource.close();
+            }
+        } catch (SQLException e){
+            System.out.println(e.toString());
+        }
     }
 
     private void setupDatabase(ConnectionSource connectionSource) throws Exception {
@@ -83,12 +84,12 @@ public class DBHelper {
     private void initializeAdmin() throws Exception{
         try{
             User user = getUserByUsername("root");
-        }catch (SQLException e){
-            try{
-                userStringDao.create(new User("root", "root".hashCode(), "管理员", User.Group.HeadTeacher));
-            }catch (SQLException e2){
-                System.out.println(e2.toString());
+            if (user==null){
+                userStringDao.create(new User("root", "root".hashCode(), User.Group.HeadTeacher));
+                System.out.println("创建管理员");
             }
+        }catch (SQLException e){
+            System.out.println(e.toString());
         }
     }
 
@@ -137,5 +138,22 @@ public class DBHelper {
 
     public Dao<User, String> getUserStringDao() {
         return userStringDao;
+    }
+
+    public static void main(String args[]){
+        // 测试数据
+        try{
+            DBHelper dbh = new DBHelper();
+            System.out.println("查找管理员");
+            User root = dbh.getUserStringDao().queryForId("root");
+            System.out.println(String.format("username:\t %s\npassword:\t %d\ngroup:\t %s\n",
+                        root.getUsername(),
+                        root.getHashPass(),
+                        root.getGroup()
+                    ));
+            dbh.close();
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
     }
 }

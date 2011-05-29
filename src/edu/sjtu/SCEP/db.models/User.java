@@ -3,6 +3,8 @@ package edu.sjtu.SCEP.db.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by IntelliJ IDEA.
  * User: gsj987
@@ -13,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 
 @DatabaseTable(tableName = "users")
-public class User {
+public class User implements Serializable {
     public enum Group{HeadTeacher, Teachers, Students}
 
     @DatabaseField(canBeNull = false, id = true)
@@ -22,8 +24,8 @@ public class User {
     @DatabaseField(canBeNull = false)
     private int hashPass;
 
-    @DatabaseField(canBeNull = true)
-    private String name;
+    @DatabaseField(canBeNull = false)
+    private String name = "";
 
 
     @DatabaseField(canBeNull = false)
@@ -56,5 +58,9 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public Group getGroup() {
+        return group;
     }
 }

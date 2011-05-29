@@ -34,6 +34,10 @@ public class PaperRecord {
     @ForeignCollectionField
     private ForeignCollection<Answer> answers;
 
+    PaperRecord(){
+
+    }
+
     public PaperRecord(Paper paper, User user) {
         this.paper = paper;
         this.user = user;
