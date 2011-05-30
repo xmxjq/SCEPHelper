@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class DBHelper {
-    private final static String DATABASE_URL = "jdbc:h2:mem:scep";
+    private final static String DATABASE_URL = "jdbc:h2:mem:SCEPHelper";
 
     // 设定各种Dao
     private Dao<Paper, Integer> paperIntegerDao;
