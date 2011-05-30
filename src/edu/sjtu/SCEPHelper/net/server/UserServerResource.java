@@ -26,7 +26,7 @@ public class UserServerResource extends ServerResource implements UserResource{
 
     public UserServerResource() throws Exception{
         super();
-        userStringDao = (new DBHelper()).getUserStringDao();
+        userStringDao = (DBHelper.getDbHelper()).getUserStringDao();
 
     }
 

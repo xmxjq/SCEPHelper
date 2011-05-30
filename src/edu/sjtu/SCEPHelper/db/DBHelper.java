@@ -18,6 +18,7 @@ import java.sql.SQLException;
  */
 public class DBHelper {
     private final static String DATABASE_URL = "jdbc:h2:mem:SCEPHelper";
+    private static DBHelper dbHelper = null;
 
     // 设定各种Dao
     private Dao<Paper, Integer> paperIntegerDao;
@@ -40,12 +41,19 @@ public class DBHelper {
 		setupDatabase(connectionSource);
     }
 
-    public void close(){
+    public static DBHelper getDbHelper() throws Exception{
+        if(dbHelper==null){
+            dbHelper = new DBHelper();
+        }
+        return dbHelper;
+    }
+
+    public static void close(){
         try{
-            if (connectionSource != null) {
-		        connectionSource.close();
+            if (getDbHelper().connectionSource != null) {
+		        getDbHelper().connectionSource.close();
             }
-        } catch (SQLException e){
+        } catch (Exception e){
             System.out.println(e.toString());
         }
     }
@@ -141,7 +149,7 @@ public class DBHelper {
     public static void main(String args[]){
         // 测试数据
         try{
-            DBHelper dbh = new DBHelper();
+            DBHelper dbh = getDbHelper();
             System.out.println("查找管理员");
             User root = dbh.getUserStringDao().queryForId("root");
             System.out.println(String.format("username:\t %s\npassword:\t %d\ngroup:\t %s\n",
@@ -149,7 +157,7 @@ public class DBHelper {
                         root.getHashPass(),
                         root.getGroup()
                     ));
-            dbh.close();
+            close();
         }catch (Exception e){
             System.out.println(e.toString());
         }

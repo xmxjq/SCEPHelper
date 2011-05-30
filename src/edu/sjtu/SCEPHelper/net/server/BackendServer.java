@@ -1,5 +1,6 @@
 package edu.sjtu.SCEPHelper.net.server;
 
+import edu.sjtu.SCEPHelper.db.DBHelper;
 import edu.sjtu.SCEPHelper.net.ResourceURL;
 import org.restlet.Application;
 import org.restlet.Component;
@@ -36,6 +37,7 @@ public class BackendServer extends Application {
     }
 
     public static void stopServer() throws Exception {
+        DBHelper.getDbHelper().close();
         getComponent().stop();
     }
 
