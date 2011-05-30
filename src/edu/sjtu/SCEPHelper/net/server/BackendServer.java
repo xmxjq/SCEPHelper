@@ -1,6 +1,6 @@
-package edu.sjtu.ETHelper.net.server;
+package edu.sjtu.SCEPHelper.net.server;
 
-import edu.sjtu.ETHelper.net.ResourceURL;
+import edu.sjtu.SCEPHelper.net.ResourceURL;
 import org.restlet.Application;
 import org.restlet.Component;
 import org.restlet.Restlet;

@@ -1,4 +1,4 @@
-package edu.sjtu.ETHelper.db.models;
+package edu.sjtu.SCEPHelper.db.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

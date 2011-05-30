@@ -1,4 +1,4 @@
-package edu.sjtu.ETHelper.net;
+package edu.sjtu.SCEPHelper.net;
 
 /**
  * Created by IntelliJ IDEA.

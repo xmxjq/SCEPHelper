@@ -1,7 +1,7 @@
-package edu.sjtu.ETHelper.net.client;
+package edu.sjtu.SCEPHelper.net.client;
 
-import edu.sjtu.ETHelper.db.models.User;
-import edu.sjtu.ETHelper.net.UserResource;
+import edu.sjtu.SCEPHelper.db.models.User;
+import edu.sjtu.SCEPHelper.net.UserResource;
 import org.restlet.resource.ClientResource;
 
 /**

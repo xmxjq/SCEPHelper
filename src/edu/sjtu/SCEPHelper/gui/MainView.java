@@ -1,6 +1,6 @@
-package edu.sjtu.ETHelper.gui;
+package edu.sjtu.SCEPHelper.gui;
 
-import edu.sjtu.ETHelper.net.server.BackendServer;
+import edu.sjtu.SCEPHelper.net.server.BackendServer;
 
 import javax.swing.*;
 import java.awt.*;

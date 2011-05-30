@@ -1,4 +1,4 @@
-package edu.sjtu.ETHelper.net.server;
+package edu.sjtu.SCEPHelper.net.server;
 
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;

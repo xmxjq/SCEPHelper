@@ -1,9 +1,9 @@
-package edu.sjtu.ETHelper.net.server;
+package edu.sjtu.SCEPHelper.net.server;
 
 import com.j256.ormlite.dao.Dao;
-import edu.sjtu.ETHelper.db.DBHelper;
-import edu.sjtu.ETHelper.db.models.User;
-import edu.sjtu.ETHelper.net.UserResource;
+import edu.sjtu.SCEPHelper.db.DBHelper;
+import edu.sjtu.SCEPHelper.db.models.User;
+import edu.sjtu.SCEPHelper.net.UserResource;
 import org.restlet.data.Cookie;
 import org.restlet.data.Status;
 import org.restlet.resource.*;

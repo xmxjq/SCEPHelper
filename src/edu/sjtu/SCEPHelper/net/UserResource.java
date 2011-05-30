@@ -1,6 +1,6 @@
-package edu.sjtu.ETHelper.net;
+package edu.sjtu.SCEPHelper.net;
 
-import edu.sjtu.ETHelper.db.models.User;
+import edu.sjtu.SCEPHelper.db.models.User;
 import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
