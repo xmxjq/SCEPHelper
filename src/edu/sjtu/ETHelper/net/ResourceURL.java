@@ -1,4 +1,4 @@
-package edu.sjtu.SCEP.net;
+package edu.sjtu.ETHelper.net;
 
 /**
  * Created by IntelliJ IDEA.
@@ -8,7 +8,7 @@ package edu.sjtu.SCEP.net;
  * To change this template use File | Settings | File Templates.
  */
 public class ResourceURL {
-    public final static String USER_URL = "/user";
+    public final static String USER_URL = "/user/{username}";
     public final static String PAPER_URL = "/paper/{paperId}";
     public final static String LOGIN_URL = "/login";
     public final static String LOGOUT_URL = "/logout";

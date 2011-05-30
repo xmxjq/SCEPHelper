@@ -1,4 +1,4 @@
-package edu.sjtu.SCEP.db.models;
+package edu.sjtu.ETHelper.db.models;
 
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.ForeignCollection;
@@ -6,7 +6,6 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 
 /**

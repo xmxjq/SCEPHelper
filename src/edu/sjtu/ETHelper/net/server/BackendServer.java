@@ -1,17 +1,11 @@
-package edu.sjtu.SCEP.net.server;
+package edu.sjtu.ETHelper.net.server;
 
-import edu.sjtu.SCEP.net.ResourceURL;
+import edu.sjtu.ETHelper.net.ResourceURL;
 import org.restlet.Application;
 import org.restlet.Component;
 import org.restlet.Restlet;
-import org.restlet.Server;
 import org.restlet.data.Protocol;
-import org.restlet.resource.Directory;
-import org.restlet.resource.Get;
-import org.restlet.resource.ServerResource;
 import org.restlet.routing.Router;
-
-import javax.annotation.Resource;
 
 /**
  * Created by IntelliJ IDEA.

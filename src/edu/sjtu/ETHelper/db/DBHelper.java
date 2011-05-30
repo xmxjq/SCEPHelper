@@ -1,13 +1,11 @@
-package edu.sjtu.SCEP.db;
+package edu.sjtu.ETHelper.db;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.SelectArg;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import edu.sjtu.SCEP.db.models.*;
+import edu.sjtu.ETHelper.db.models.*;
 
 import java.sql.SQLException;
 
@@ -85,7 +83,7 @@ public class DBHelper {
         try{
             User user = getUserByUsername("root");
             if (user==null){
-                userStringDao.create(new User("root", "root".hashCode(), User.Group.HeadTeacher));
+                userStringDao.create(new User("root", "root".hashCode(), "管理员", User.Group.HeadTeacher));
                 System.out.println("创建管理员");
             }
         }catch (SQLException e){

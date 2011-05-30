@@ -1,7 +1,7 @@
-package edu.sjtu.SCEP.net.client;
+package edu.sjtu.ETHelper.net.client;
 
-import edu.sjtu.SCEP.db.models.User;
-import edu.sjtu.SCEP.net.UserResource;
+import edu.sjtu.ETHelper.db.models.User;
+import edu.sjtu.ETHelper.net.UserResource;
 import org.restlet.resource.ClientResource;
 
 /**
@@ -29,7 +29,7 @@ public class BackendClient {
     }
 
     public static void main(String args[]) {
-        ClientResource cr = new ClientResource("http://localhost:8182/user");
+        ClientResource cr = new ClientResource("http://localhost:8182/user/root");
         UserResource resource = cr.wrap(UserResource.class);
 
         User user = resource.retrieve();

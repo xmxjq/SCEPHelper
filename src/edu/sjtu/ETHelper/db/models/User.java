@@ -1,4 +1,4 @@
-package edu.sjtu.SCEP.db.models;
+package edu.sjtu.ETHelper.db.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -62,5 +62,21 @@ public class User implements Serializable {
 
     public Group getGroup() {
         return group;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setHashPass(int hashPass) {
+        this.hashPass = hashPass;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

@@ -1,20 +1,15 @@
-package edu.sjtu.SCEP.net.server;
+package edu.sjtu.ETHelper.net.server;
 
 import com.j256.ormlite.dao.Dao;
-import edu.sjtu.SCEP.db.DBHelper;
-import edu.sjtu.SCEP.db.models.User;
-import edu.sjtu.SCEP.net.UserResource;
-import org.restlet.Context;
-import org.restlet.Request;
-import org.restlet.Response;
-import org.restlet.Server;
+import edu.sjtu.ETHelper.db.DBHelper;
+import edu.sjtu.ETHelper.db.models.User;
+import edu.sjtu.ETHelper.net.UserResource;
 import org.restlet.data.Cookie;
-import org.restlet.data.MediaType;
-import org.restlet.representation.Variant;
+import org.restlet.data.Status;
 import org.restlet.resource.*;
 import org.restlet.util.Series;
 
-import java.net.ServerSocket;
+import java.sql.SQLException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,17 +26,26 @@ public class UserServerResource extends ServerResource implements UserResource{
 
     public UserServerResource() throws Exception{
         super();
-
         userStringDao = (new DBHelper()).getUserStringDao();
-        //Series<Cookie> cookies = getRequest().getCookies();
-        //String username = (String) request.getAttributes().get("username");
-        //String requestUsername = cookies.getFirstValue("requestUser", null);
 
-        //user = userStringDao.queryForId(username);
-        //if (requestUsername!=null) {
-        //    requestUser = userStringDao.queryForId(requestUsername);
-        //}
     }
+
+    @Override
+    public void doInit() throws ResourceException{
+        Series<Cookie> cookies = getRequest().getCookies();
+        String username = (String) getRequest().getAttributes().get("username");
+        String requestUsername = cookies.getFirstValue("requestUser", null);
+
+        try{
+            user = userStringDao.queryForId(username);
+            if (requestUsername!=null) {
+                requestUser = userStringDao.queryForId(requestUsername);
+            }
+        }catch (SQLException e){
+            throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+        }
+    }
+
 
     @Get
     public User retrieve() {
