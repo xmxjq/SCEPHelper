@@ -8,8 +8,6 @@ import org.restlet.Restlet;
 import org.restlet.data.Protocol;
 import org.restlet.routing.Router;
 
-import javax.annotation.Resource;
-
 /**
  * Created by IntelliJ IDEA.
  * User: gsj987

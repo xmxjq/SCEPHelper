@@ -7,9 +7,6 @@ import edu.sjtu.SCEPHelper.net.PaperResource;
 import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 
-import javax.jws.soap.SOAPBinding;
-import javax.swing.text.PlainDocument;
-
 /**
  * Created by IntelliJ IDEA.
  * User: gsj987

@@ -93,6 +93,10 @@ public class DBHelper {
             if (user==null){
                 userStringDao.create(new User("root", "root".hashCode(), "管理员", User.Group.HeadTeacher));
                 System.out.println("创建管理员");
+                userStringDao.create(new User("teacher", "treacher".hashCode(), "老师", User.Group.Teachers));
+                System.out.println("创建一个老师");
+                userStringDao.create(new User("student", "student".hashCode(), "学生", User.Group.Students));
+                System.out.println("创建一个学生");
             }
         }catch (SQLException e){
             System.out.println(e.toString());
@@ -109,9 +113,10 @@ public class DBHelper {
             if (user.getHashPass()==password.hashCode()){
                 return user;
             }
-        }finally {
+        } catch (Exception e){
             throw new Exception("用户不存在");
         }
+        return null;
     }
 
     public Dao<Paper, Integer> getPaperIntegerDao() {

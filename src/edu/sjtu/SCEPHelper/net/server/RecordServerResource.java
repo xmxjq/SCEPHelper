@@ -1,6 +1,5 @@
 package edu.sjtu.SCEPHelper.net.server;
 
-import com.sun.xml.internal.dtdparser.DTDHandlerBase;
 import edu.sjtu.SCEPHelper.db.DBHelper;
 import edu.sjtu.SCEPHelper.db.models.PaperRecord;
 import edu.sjtu.SCEPHelper.db.models.User;

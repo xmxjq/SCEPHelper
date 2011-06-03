@@ -1,6 +1,7 @@
 package edu.sjtu.SCEPHelper.net;
 
 import edu.sjtu.SCEPHelper.db.models.User;
+import org.restlet.data.Form;
 import org.restlet.resource.Delete;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
@@ -14,7 +15,7 @@ import org.restlet.resource.ResourceException;
  */
 public interface LoginResource {
     @Post
-    public User login(String username, String password) throws ResourceException;
+    public User login(Form form) throws ResourceException;
 
     @Delete
     public void logout();

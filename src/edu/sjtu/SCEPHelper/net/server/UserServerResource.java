@@ -1,16 +1,13 @@
 package edu.sjtu.SCEPHelper.net.server;
 
-import com.j256.ormlite.dao.Dao;
-import edu.sjtu.SCEPHelper.db.DBHelper;
 import edu.sjtu.SCEPHelper.db.models.User;
 import edu.sjtu.SCEPHelper.net.UserResource;
-import edu.sjtu.SCEPHelper.utils.StringUtils;
-import org.restlet.data.Cookie;
 import org.restlet.data.Status;
-import org.restlet.resource.*;
-import org.restlet.util.Series;
+import org.restlet.resource.Delete;
+import org.restlet.resource.Get;
+import org.restlet.resource.Put;
+import org.restlet.resource.ResourceException;
 
-import javax.jws.soap.SOAPBinding;
 import java.sql.SQLException;
 
 /**
@@ -23,7 +20,6 @@ import java.sql.SQLException;
 public class UserServerResource extends LoginRequiredResource implements UserResource{
 
     private User user = null;
-    private User requestUser = null;
 
     public UserServerResource() throws Exception {
         super();
@@ -43,11 +39,6 @@ public class UserServerResource extends LoginRequiredResource implements UserRes
 
     @Get
     public User retrieve() {
-        try{
-            user = userStringDao.queryForId("root");
-        }catch (Exception e){
-            System.out.println(e.toString());
-        }
         return user;
     }
 
@@ -55,15 +46,16 @@ public class UserServerResource extends LoginRequiredResource implements UserRes
     public void store(User user){
         //只有本人或者校长才能修改用户
         if (requestUser != null &&
-                (checkPermission(User.Group.HeadTeacher.HeadTeacher) ||
+                (checkPermission(User.Group.HeadTeacher) ||
                         requestUser.getUsername().equals(user.getUsername()) )){
             try{
                 userStringDao.update(user);
             } catch (Exception e){
                 throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, e);
             }
-        }else
+        }else{
             throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
+        }
     }
 
     @Delete
