@@ -3,6 +3,8 @@ package edu.sjtu.SCEPHelper.db.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by IntelliJ IDEA.
  * User: gsj987
@@ -12,7 +14,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "answers")
-public class Answer {
+public class Answer implements Serializable {
     @DatabaseField(generatedId = true)
     private int id;
 
@@ -46,6 +48,26 @@ public class Answer {
 
     public Comment getComment() {
         return comment;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public void setPaperRecord(PaperRecord paperRecord) {
+        this.paperRecord = paperRecord;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
     Answer(){

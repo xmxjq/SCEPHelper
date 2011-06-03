@@ -1,10 +1,7 @@
 package edu.sjtu.SCEPHelper.net;
 
 import edu.sjtu.SCEPHelper.db.models.PaperRecord;
-import org.restlet.resource.Delete;
-import org.restlet.resource.Get;
-import org.restlet.resource.Post;
-import org.restlet.resource.Put;
+import org.restlet.resource.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,11 +15,11 @@ public interface RecordResource {
     public PaperRecord retrieve();
 
     @Post
-    public void submit(PaperRecord paperRecord);
+    public void submit(PaperRecord paperRecord) throws ResourceException;
 
     @Put
-    public void correction(PaperRecord paperRecord);
+    public void correction(PaperRecord paperRecord) throws ResourceException;
 
     @Delete
-    public void remove();
+    public void remove() throws ResourceException;
 }

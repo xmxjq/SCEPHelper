@@ -5,6 +5,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by IntelliJ IDEA.
  * User: gsj987
@@ -14,7 +16,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "questions")
-public class Question {
+public class Question implements Serializable {
     public enum QuestionType{SingleChoice,
                              MultipleChoices,
                              SingleLineInput,
@@ -83,5 +85,33 @@ public class Question {
 
     public ForeignCollection<Choice> getChoices() {
         return choices;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    public void setQuestionType(QuestionType questionType) {
+        this.questionType = questionType;
+    }
+
+    public void setNr(int nr) {
+        this.nr = nr;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setChoices(ForeignCollection<Choice> choices) {
+        this.choices = choices;
     }
 }

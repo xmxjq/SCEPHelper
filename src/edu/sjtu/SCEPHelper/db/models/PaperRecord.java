@@ -6,6 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 
 /**
@@ -17,7 +18,7 @@ import java.sql.SQLException;
  */
 
 @DatabaseTable(tableName = "paper_records")
-public class PaperRecord {
+public class PaperRecord implements Serializable {
     @DatabaseField(generatedId = true)
     private int id;
 
@@ -75,5 +76,25 @@ public class PaperRecord {
 
     public ForeignCollection<Answer> getAnswers() {
         return answers;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTotalPoint(int totalPoint) {
+        this.totalPoint = totalPoint;
+    }
+
+    public void setPaper(Paper paper) {
+        this.paper = paper;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setAnswers(ForeignCollection<Answer> answers) {
+        this.answers = answers;
     }
 }

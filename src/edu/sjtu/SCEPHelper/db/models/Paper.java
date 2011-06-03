@@ -5,6 +5,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by IntelliJ IDEA.
  * User: gsj987
@@ -14,7 +16,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "papers")
-public class Paper {
+public class Paper implements Serializable {
     @DatabaseField(generatedId = true)
     private int id;
 
@@ -42,5 +44,17 @@ public class Paper {
 
     public ForeignCollection<Category> getCategories() {
         return categories;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategories(ForeignCollection<Category> categories) {
+        this.categories = categories;
     }
 }

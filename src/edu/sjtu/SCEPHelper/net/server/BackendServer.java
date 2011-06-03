@@ -8,6 +8,8 @@ import org.restlet.Restlet;
 import org.restlet.data.Protocol;
 import org.restlet.routing.Router;
 
+import javax.annotation.Resource;
+
 /**
  * Created by IntelliJ IDEA.
  * User: gsj987
@@ -59,6 +61,9 @@ public class BackendServer extends Application {
         //router.attachDefault(new Directory(getContext(), "war:///"));
         router.attach(ResourceURL.ROOT_URL, RootServerResource.class);
         router.attach(ResourceURL.USER_URL, UserServerResource.class);
+        router.attach(ResourceURL.LOGIN_URL, LoginServerResource.class);
+        router.attach(ResourceURL.PAPER_URL, PaperServerResource.class);
+        router.attach(ResourceURL.RECORD_URL, RecordServerResource.class);
 
         return router;
     }

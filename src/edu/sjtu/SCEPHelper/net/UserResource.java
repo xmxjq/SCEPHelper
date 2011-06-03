@@ -4,6 +4,7 @@ import edu.sjtu.SCEPHelper.db.models.User;
 import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
+import org.restlet.resource.ResourceException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,7 +18,7 @@ public interface UserResource {
     public User retrieve();
 
     @Put
-    public void store(User user);
+    public void store(User user) throws ResourceException;
 
     @Delete
     public void remove();

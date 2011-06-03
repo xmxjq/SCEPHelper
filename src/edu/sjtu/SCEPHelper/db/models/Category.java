@@ -5,6 +5,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by IntelliJ IDEA.
  * User: gsj987
@@ -14,7 +16,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "question_types")
-public class Category {
+public class Category implements Serializable {
     public enum CategoryType{QuestionType, SplitType}
 
     @DatabaseField(generatedId = true)
@@ -82,5 +84,33 @@ public class Category {
 
     public ForeignCollection<Question> getQuestions() {
         return questions;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCategoryType(CategoryType categoryType) {
+        this.categoryType = categoryType;
+    }
+
+    public void setNr(int nr) {
+        this.nr = nr;
+    }
+
+    public void setPaper(Paper paper) {
+        this.paper = paper;
+    }
+
+    public void setQuestions(ForeignCollection<Question> questions) {
+        this.questions = questions;
     }
 }
