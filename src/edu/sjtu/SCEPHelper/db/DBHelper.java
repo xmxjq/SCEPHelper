@@ -3,9 +3,11 @@ package edu.sjtu.SCEPHelper.db;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.stmt.query.In;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import edu.sjtu.SCEPHelper.db.models.*;
+import org.h2.table.Table;
 
 import java.sql.SQLException;
 
@@ -25,6 +27,7 @@ public class DBHelper {
 	private Dao<Category, Integer> categoryIntegerDao;
     private Dao<Question, Integer> questionIntegerDao;
     private Dao<Choice, Integer> choiceIntegerDao;
+    private Dao<CorrectAnswer, Integer> correctAnswerIntegerDao;
 
     private Dao<PaperRecord, Integer> paperRecordIntegerDao;
     private Dao<Answer, Integer> answerIntegerDao;
@@ -64,6 +67,7 @@ public class DBHelper {
         categoryIntegerDao = DaoManager.createDao(connectionSource, Category.class);
         questionIntegerDao = DaoManager.createDao(connectionSource, Question.class);
         choiceIntegerDao = DaoManager.createDao(connectionSource, Choice.class);
+        correctAnswerIntegerDao = DaoManager.createDao(connectionSource, CorrectAnswer.class);
 
         paperRecordIntegerDao = DaoManager.createDao(connectionSource, PaperRecord.class);
         answerIntegerDao = DaoManager.createDao(connectionSource, Answer.class);
@@ -78,6 +82,7 @@ public class DBHelper {
         TableUtils.createTableIfNotExists(connectionSource, Category.class);
         TableUtils.createTableIfNotExists(connectionSource, Question.class);
         TableUtils.createTableIfNotExists(connectionSource, Choice.class);
+        TableUtils.createTableIfNotExists(connectionSource, CorrectAnswer.class);
 
         TableUtils.createTableIfNotExists(connectionSource, PaperRecord.class);
         TableUtils.createTableIfNotExists(connectionSource, Answer.class);
@@ -133,6 +138,10 @@ public class DBHelper {
 
     public Dao<Choice, Integer> getChoiceIntegerDao() {
         return choiceIntegerDao;
+    }
+
+    public Dao<CorrectAnswer, Integer> getCorrectAnswerIntegerDao() {
+        return correctAnswerIntegerDao;
     }
 
     public Dao<PaperRecord, Integer> getPaperRecordIntegerDao() {

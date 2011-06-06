@@ -9,6 +9,8 @@ import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 import org.restlet.util.Series;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -58,6 +60,8 @@ public class BackendClient {
         cookies = loginClientResource.getRequest().getCookies();
         cookies.add("requestUser", cookie);
 
+        loginClientResource.release();
+
         return currentUser;
     }
 
@@ -99,6 +103,7 @@ public class BackendClient {
     public boolean testConnection() {
         ClientResource cr = new ClientResource(baseURL);
         String response = cr.get().toString();
+        cr.release();
         if(response!=null){
             System.out.println(response);
             return true;
@@ -127,35 +132,47 @@ public class BackendClient {
 
             PaperResource paperResource = bc.getPaperResource();
             Paper paper = new Paper("测试试卷");
+
+
             Category categoryOne = new Category("阅读题", "这是一篇文章", Category.CategoryType.QuestionType, 1, paper);
             Category categoryTwo = new Category("阅读理解", "这是一个分割", Category.CategoryType.SplitType, 2, paper);
+            CorrectAnswer correctAnswer = new CorrectAnswer("1");
 
-            Question questionOne = new Question("问题1", 2, 1, Question.QuestionType.SingleChoice, categoryOne);
-            Question questionTwo = new Question("问题2", 2, 2, Question.QuestionType.MultipleChoices, categoryOne);
-            Question questionThree = new Question("问题3", 2, 3, Question.QuestionType.SingleLineInput, categoryOne);
-            Question questionFour = new Question("问题4", 2, 4, Question.QuestionType.MultipleLineInput, categoryOne);
+            Question questionOne = new Question("问题1", 2, 1,
+                    Question.QuestionType.SingleChoice, categoryOne, correctAnswer);
+            Question questionTwo = new Question("问题2", 2, 2,
+                    Question.QuestionType.MultipleChoices, categoryOne, correctAnswer);
+            Question questionThree = new Question("问题3", 2, 3,
+                    Question.QuestionType.SingleLineInput, categoryOne, correctAnswer);
+            Question questionFour = new Question("问题4", 2, 4,
+                    Question.QuestionType.MultipleLineInput, categoryOne, correctAnswer);
 
             Choice choiceOne = new Choice("选项1", 1, questionOne);
             Choice choiceTwo = new Choice("选项1", 1, questionTwo);
             Choice choiceThree = new Choice("选项2", 2, questionTwo);
 
-            paper.getCategories().add(categoryOne);
-            paper.getCategories().add(categoryTwo);
+            paper.getSerializableCategories().add(categoryOne);
+            paper.getSerializableCategories().add(categoryTwo);
 
-            categoryOne.getQuestions().add(questionOne);
-            categoryOne.getQuestions().add(questionTwo);
-            categoryOne.getQuestions().add(questionThree);
-            categoryOne.getQuestions().add(questionFour);
+            categoryOne.getSerializableQuestions().add(questionOne);
+            categoryOne.getSerializableQuestions().add(questionTwo);
+            categoryOne.getSerializableQuestions().add(questionThree);
+            categoryOne.getSerializableQuestions().add(questionFour);
 
-            questionOne.getChoices().add(choiceOne);
-            questionTwo.getChoices().add(choiceTwo);
-            questionTwo.getChoices().add(choiceThree);
+            questionOne.getSerializableChoices().add(choiceOne);
+            questionTwo.getSerializableChoices().add(choiceTwo);
+            questionTwo.getSerializableChoices().add(choiceThree);
 
             paperResource.create(paper);
+            System.out.println("created");
 
             paperResource = bc.getPaperResource(1);
             paper = paperResource.retrieve();
-            System.out.println(String.format("[PAPER]: %s", paper));
+            System.out.println(String.format("[PAPER]: %s", paper.getName()));
+            ArrayList<Category> categories = paper.getSerializableCategories();
+            System.out.println(String.format("[Categories]: %s, %s",
+                    categories.get(0).getName(),
+                    categories.get(1).getName()));
 
 
         }catch (ResourceException e){

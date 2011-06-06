@@ -3,9 +3,17 @@ package edu.sjtu.SCEPHelper.db.models;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.DatabaseTable;
+import edu.sjtu.SCEPHelper.db.DBHelper;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,8 +45,12 @@ public class Category implements Serializable {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Paper paper;
 
-    @ForeignCollectionField
-    private ForeignCollection<Question> questions;
+    //@JsonIgnore
+    //@ForeignCollectionField
+    //private ForeignCollection<Question> questions;
+
+
+    private ArrayList<Question> serializableQuestions = new ArrayList<Question>();
 
     Category(){
 
@@ -56,6 +68,17 @@ public class Category implements Serializable {
         this.categoryType = categoryType;
         this.nr = nr;
         this.paper = paper;
+    }
+
+    public static List<Category> queryByPaper(Paper paper) throws Exception{
+        QueryBuilder<Category, Integer> queryBuilder = DBHelper.getDbHelper().getCategoryIntegerDao().queryBuilder();
+        Where<Category, Integer> where = queryBuilder.where();
+        SelectArg selectArg = new SelectArg();
+        where.eq("paper_id", selectArg);
+        PreparedQuery<Category> preparedQuery = queryBuilder.prepare();
+
+        selectArg.setValue(paper.getId());
+        return DBHelper.getDbHelper().getCategoryIntegerDao().query(preparedQuery);
     }
 
     public int getId() {
@@ -79,11 +102,19 @@ public class Category implements Serializable {
     }
 
     public Paper getPaper() {
-        return paper;
+        return null;
     }
 
-    public ForeignCollection<Question> getQuestions() {
-        return questions;
+    //public ForeignCollection<Question> getQuestions() {
+    //    return questions;
+    //}
+
+    public ArrayList<Question> getSerializableQuestions() {
+        return serializableQuestions;
+    }
+
+    public void setSerializableQuestions(ArrayList<Question> serializableQuestions) {
+        this.serializableQuestions = serializableQuestions;
     }
 
     public void setId(int id) {
@@ -110,7 +141,4 @@ public class Category implements Serializable {
         this.paper = paper;
     }
 
-    public void setQuestions(ForeignCollection<Question> questions) {
-        this.questions = questions;
-    }
 }

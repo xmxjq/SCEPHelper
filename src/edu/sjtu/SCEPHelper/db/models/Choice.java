@@ -1,9 +1,15 @@
 package edu.sjtu.SCEPHelper.db.models;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.DatabaseTable;
+import edu.sjtu.SCEPHelper.db.DBHelper;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,6 +44,17 @@ public class Choice implements Serializable {
         this.question = question;
     }
 
+    public static List<Choice> queryByQuestion(Question question) throws Exception{
+        QueryBuilder<Choice, Integer> queryBuilder = DBHelper.getDbHelper().getChoiceIntegerDao().queryBuilder();
+        Where<Choice, Integer> where = queryBuilder.where();
+        SelectArg selectArg = new SelectArg();
+        where.eq("question_id", selectArg);
+        PreparedQuery<Choice> preparedQuery = queryBuilder.prepare();
+
+        selectArg.setValue(question.getId());
+        return DBHelper.getDbHelper().getChoiceIntegerDao().query(preparedQuery);
+    }
+
     public int getId() {
         return id;
     }
@@ -51,7 +68,7 @@ public class Choice implements Serializable {
     }
 
     public Question getQuestion() {
-        return question;
+        return null;
     }
 
     public void setId(int id) {

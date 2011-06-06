@@ -3,9 +3,19 @@ package edu.sjtu.SCEPHelper.db.models;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.DatabaseTable;
+import edu.sjtu.SCEPHelper.db.DBHelper;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import sun.jvm.hotspot.code.Location;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,8 +50,14 @@ public class Question implements Serializable {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Category category;
 
-    @ForeignCollectionField
-    private ForeignCollection<Choice> choices;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private CorrectAnswer correctAnswer;
+
+    //@JsonIgnore
+   // @ForeignCollectionField
+   // private ForeignCollection<Choice> choices;
+
+    private ArrayList<Choice> serializableChoices = new ArrayList<Choice>();
 
     public int getNr() {
         return nr;
@@ -51,8 +67,12 @@ public class Question implements Serializable {
 
     }
 
-    public Question(String name, int point, int nr, QuestionType questionType, Category category)
-            throws Exception{
+    public Question(String name,
+                    int point,
+                    int nr,
+                    QuestionType questionType,
+                    Category category,
+                    CorrectAnswer correctAnswer) throws Exception{
         if (category.getCategoryType()!= Category.CategoryType.QuestionType){
             throw new Exception("分类类型不匹配");
         }
@@ -61,6 +81,18 @@ public class Question implements Serializable {
         this.nr = nr;
         this.questionType = questionType;
         this.category = category;
+        this.correctAnswer = correctAnswer;
+    }
+
+    public static List<Question> queryByCategory(Category category) throws Exception{
+        QueryBuilder<Question, Integer> queryBuilder = DBHelper.getDbHelper().getQuestionIntegerDao().queryBuilder();
+        Where<Question, Integer> where = queryBuilder.where();
+        SelectArg selectArg = new SelectArg();
+        where.eq("category_id", selectArg);
+        PreparedQuery<Question> preparedQuery = queryBuilder.prepare();
+
+        selectArg.setValue(category.getId());
+        return DBHelper.getDbHelper().getQuestionIntegerDao().query(preparedQuery);
     }
 
     public int getId() {
@@ -80,11 +112,27 @@ public class Question implements Serializable {
     }
 
     public Category getCategory() {
-        return category;
+        return null;
     }
 
-    public ForeignCollection<Choice> getChoices() {
-        return choices;
+    //public ForeignCollection<Choice> getChoices() {
+    //    return choices;
+    //}
+
+    public ArrayList<Choice> getSerializableChoices() {
+        return serializableChoices;
+    }
+
+    public CorrectAnswer getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(CorrectAnswer correctAnswer) {
+        this.correctAnswer = correctAnswer;
+    }
+
+    public void setSerializableChoices(ArrayList<Choice> serializableChoices) {
+        this.serializableChoices = serializableChoices;
     }
 
     public void setId(int id) {
@@ -109,9 +157,5 @@ public class Question implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public void setChoices(ForeignCollection<Choice> choices) {
-        this.choices = choices;
     }
 }

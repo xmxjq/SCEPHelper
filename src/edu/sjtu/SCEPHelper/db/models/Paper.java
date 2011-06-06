@@ -4,8 +4,12 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import org.codehaus.jackson.annotate.JacksonAnnotation;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,8 +27,11 @@ public class Paper implements Serializable {
     @DatabaseField(canBeNull = false)
     private String name;
 
-    @ForeignCollectionField
-    private ForeignCollection<Category> categories;
+    //@JsonIgnore
+    //@ForeignCollectionField
+    //private ForeignCollection<Category> categories;
+
+    private ArrayList<Category> serializableCategories = new ArrayList<Category>();
 
     Paper(){
         // all persisted classes must define a no-arg constructor with at least package visibility
@@ -42,8 +49,16 @@ public class Paper implements Serializable {
         return name;
     }
 
-    public ForeignCollection<Category> getCategories() {
-        return categories;
+    //public ForeignCollection<Category> getCategories() {
+    //    return categories;
+    //}
+
+    public ArrayList<Category> getSerializableCategories() {
+        return serializableCategories;
+    }
+
+    public void setSerializableCategories(ArrayList<Category> serializableCategories) {
+        this.serializableCategories = serializableCategories;
     }
 
     public void setId(int id) {
@@ -54,7 +69,7 @@ public class Paper implements Serializable {
         this.name = name;
     }
 
-    public void setCategories(ForeignCollection<Category> categories) {
-        this.categories = categories;
-    }
+    //public void setCategories(ForeignCollection<Category> categories) {
+    //    this.categories = categories;
+    //}
 }
