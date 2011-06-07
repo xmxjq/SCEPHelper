@@ -27,6 +27,9 @@ public class Paper implements Serializable {
     @DatabaseField(canBeNull = false)
     private String name;
 
+    @DatabaseField(canBeNull = false)
+    private int totalPoint;
+
     //@JsonIgnore
     //@ForeignCollectionField
     //private ForeignCollection<Category> categories;
@@ -53,8 +56,27 @@ public class Paper implements Serializable {
     //    return categories;
     //}
 
+    @JsonIgnore(true)
+    public int calcTotalPoint(){
+        totalPoint = 0;
+        for(Category category: serializableCategories){
+            for(Question question:category.getSerializableQuestions()){
+                totalPoint += question.getPoint();
+            }
+        }
+        return totalPoint;
+    }
+
     public ArrayList<Category> getSerializableCategories() {
         return serializableCategories;
+    }
+
+    public int getTotalPoint() {
+        return totalPoint;
+    }
+
+    public void setTotalPoint(int totalPoint) {
+        this.totalPoint = totalPoint;
     }
 
     public void setSerializableCategories(ArrayList<Category> serializableCategories) {

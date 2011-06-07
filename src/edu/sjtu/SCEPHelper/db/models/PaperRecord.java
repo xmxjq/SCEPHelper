@@ -6,6 +6,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
 import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.DatabaseTable;
+import com.sun.tools.javac.comp.Annotate;
 import edu.sjtu.SCEPHelper.db.DBHelper;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -47,11 +48,14 @@ public class PaperRecord implements Serializable {
         this.user = user;
     }
 
-    private int calcTotalPoint(){
+    public int calcTotalPoint(){
         Iterator<Answer> iterator = serializableAnswers.iterator();
         totalPoint = 0 ;
         while(iterator.hasNext()){
             Answer answer = iterator.next();
+            if(answer.getComment().getGainPoint()==0){
+                answer.getComment().setGainPoint(answer.getComment().calcGainPoint(answer));
+            }
             totalPoint += answer.getComment().getGainPoint();
         }
         return totalPoint;

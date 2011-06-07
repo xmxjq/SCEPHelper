@@ -85,6 +85,7 @@ public class PaperServerResource extends LoginRequiredResource implements PaperR
         hardCheckPermission(User.Group.HeadTeacher);
         try{
             DBHelper.getDbHelper().getPaperIntegerDao().create(paper);
+            paper.calcTotalPoint();
             createCategories(paper.getSerializableCategories(), paper);
 
         }catch (Exception e){
@@ -123,6 +124,7 @@ public class PaperServerResource extends LoginRequiredResource implements PaperR
         hardCheckPermission(User.Group.HeadTeacher);
         try{
             updateCategories(paper.getSerializableCategories(), paper);
+            paper.calcTotalPoint();
             DBHelper.getDbHelper().getPaperIntegerDao().update(paper);
         }catch (Exception e){
             e.printStackTrace();

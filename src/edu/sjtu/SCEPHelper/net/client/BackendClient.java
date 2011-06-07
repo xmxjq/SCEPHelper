@@ -199,6 +199,9 @@ public class BackendClient {
                     categories.get(0).getName(),
                     categories.get(1).getName()));
 
+            questionOne = categories.get(0).getSerializableQuestions().get(0);
+            questionTwo = categories.get(0).getSerializableQuestions().get(1);
+
             categories.get(0).setName("修改的阅读理解");   // 注意，这里 categoryOne 已经不是 paper 的属性了
             paperResource.update(paper); // 更新问卷
             paper = paperResource.retrieve();
@@ -234,8 +237,13 @@ public class BackendClient {
             System.out.println(String.format("[ANSWERS]: %s, %s",
                     answers.get(0).getAnswer(),
                     answers.get(1).getAnswer()));
+            // 打印选项值
             String[] answerChoice = answers.get(0).toAnswerStrings();
-            System.out.println(String.format("[CHOICE]: %s", answerChoice.toString()));
+            System.out.print("[CHOICES]: ");
+            for(String choice: answerChoice){
+                System.out.print(choice+" ");
+            }
+            System.out.print("\n");
 
             Comment commentOne = new Comment(true);
             Comment commentTwo = new Comment(false, 1);
@@ -248,6 +256,9 @@ public class BackendClient {
             System.out.println(String.format("[CORRECTION]: %s, %s",
                     answers.get(0).getComment().getComment(),
                     answers.get(1).getComment().getComment()));
+            System.out.println(String.format("[POINT]: %d/%d",
+                    paperRecord.calcTotalPoint(),
+                    paperRecord.getPaper().getTotalPoint()));  //算分
 
             answers.get(0).getComment().setComment(false);
             recordResource.correction(paperRecord); // 修改批改

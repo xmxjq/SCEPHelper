@@ -29,7 +29,7 @@ public class Answer implements Serializable {
     @DatabaseField(canBeNull = false)
     private String answer;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Question question;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
@@ -71,7 +71,7 @@ public class Answer implements Serializable {
         if (question.getQuestionType()==Question.QuestionType.MultipleChoices||
                 question.getQuestionType()==Question.QuestionType.SingleChoice){
             try{
-                ArrayList<Choice> choices = (ArrayList<Choice>)Choice.queryByQuestion(question);
+                ArrayList<Choice> choices = question.getSerializableChoices();
                 String[] nrs = answer.split(" ");
                 for(Choice choice: choices){
                     for(String nr: nrs){

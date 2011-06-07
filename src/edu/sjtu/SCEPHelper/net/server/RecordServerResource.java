@@ -1,9 +1,7 @@
 package edu.sjtu.SCEPHelper.net.server;
 
 import edu.sjtu.SCEPHelper.db.DBHelper;
-import edu.sjtu.SCEPHelper.db.models.Answer;
-import edu.sjtu.SCEPHelper.db.models.PaperRecord;
-import edu.sjtu.SCEPHelper.db.models.User;
+import edu.sjtu.SCEPHelper.db.models.*;
 import edu.sjtu.SCEPHelper.net.RecordResource;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
@@ -53,7 +51,20 @@ public class RecordServerResource extends LoginRequiredResource implements Recor
 
     private ArrayList<Answer> retrieveAnswers(PaperRecord paperRecord) {
         try{
-            return Answer.queryByPaperRecord(paperRecord);
+            ArrayList<Answer> answers = Answer.queryByPaperRecord(paperRecord);
+            for(Answer answer:answers){
+                answer.getQuestion().setSerializableChoices(retrieveChoices(answer.getQuestion()));
+            }
+            return answers;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private ArrayList<Choice> retrieveChoices(Question question){
+        try{
+            return (ArrayList<Choice>)Choice.queryByQuestion(question);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -63,7 +74,6 @@ public class RecordServerResource extends LoginRequiredResource implements Recor
     public void submit(PaperRecord paperRecord) throws ResourceException {
         hardCheckPermission(User.Group.Students);
         try{
-            System.out.println("SUBMIT: "+paperRecord.getPaper().getName());
             DBHelper.getDbHelper().getPaperRecordIntegerDao().create(paperRecord);
             submitAnswers(paperRecord.getSerializableAnswers(), paperRecord);
         }catch (Exception e){
