@@ -12,7 +12,7 @@ import org.restlet.resource.*;
  */
 public interface RecordResource {
     @Get
-    public PaperRecord retrieve();
+    public PaperRecord retrieve() throws ResourceException;
 
     @Post
     public void submit(PaperRecord paperRecord) throws ResourceException;
@@ -22,4 +22,5 @@ public interface RecordResource {
 
     @Delete
     public void remove() throws ResourceException;
+
 }

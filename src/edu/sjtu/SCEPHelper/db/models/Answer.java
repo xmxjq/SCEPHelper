@@ -1,9 +1,17 @@
 package edu.sjtu.SCEPHelper.db.models;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.DatabaseTable;
+import edu.sjtu.SCEPHelper.db.DBHelper;
+import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 
 import java.io.Serializable;
+import java.sql.Array;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,6 +38,58 @@ public class Answer implements Serializable {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Comment comment;
 
+    Answer(){
+    }
+
+    public Answer(String answer, Question question, PaperRecord paperRecord, Comment comment){
+        this.answer = answer;
+        this.question = question;
+        this.paperRecord = paperRecord;
+        this.comment = comment;
+        comment.calcGainPoint(this);
+    }
+
+    public Answer(String answer, Question question, PaperRecord paperRecord) {
+        this.answer = answer;
+        this.question = question;
+        this.paperRecord = paperRecord;
+    }
+
+    public static ArrayList<Answer> queryByPaperRecord(PaperRecord paperRecord) throws Exception{
+        QueryBuilder<Answer, Integer> queryBuilder = DBHelper.getDbHelper().getAnswerIntegerDao().queryBuilder();
+        Where<Answer, Integer> where = queryBuilder.where();
+        SelectArg selectArg = new SelectArg();
+        where.eq("paperRecord_id", selectArg);
+        PreparedQuery<Answer> preparedQuery = queryBuilder.prepare();
+
+        selectArg.setValue(paperRecord.getId());
+        return (ArrayList<Answer>)DBHelper.getDbHelper().getAnswerIntegerDao().query(preparedQuery);
+    }
+
+    public String[] toAnswerStrings(){
+        ArrayList<String> answers = new ArrayList<String>();
+        if (question.getQuestionType()==Question.QuestionType.MultipleChoices||
+                question.getQuestionType()==Question.QuestionType.SingleChoice){
+            try{
+                ArrayList<Choice> choices = (ArrayList<Choice>)Choice.queryByQuestion(question);
+                String[] nrs = answer.split(" ");
+                for(Choice choice: choices){
+                    for(String nr: nrs){
+                        if(nr.equals(Integer.toString(choice.getNr()))){
+                            answers.add(choice.getName());
+                            break;
+                        }
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            answers.add(answer);
+        }
+        return answers.toArray(new String[answers.size()]);
+    }
+
     public int getId() {
         return id;
     }
@@ -43,7 +103,8 @@ public class Answer implements Serializable {
     }
 
     public PaperRecord getPaperRecord() {
-        return paperRecord;
+        //return paperRecord;
+        return null;
     }
 
     public Comment getComment() {
@@ -70,15 +131,5 @@ public class Answer implements Serializable {
         this.comment = comment;
     }
 
-    Answer(){
 
-    }
-
-    public Answer(String answer, Question question, PaperRecord paperRecord, Comment comment){
-        this.answer = answer;
-        this.question = question;
-        this.paperRecord = paperRecord;
-        this.comment = comment;
-        comment.calcGainPoint(this);
-    }
 }

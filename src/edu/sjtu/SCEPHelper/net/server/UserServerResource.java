@@ -66,4 +66,5 @@ public class UserServerResource extends LoginRequiredResource implements UserRes
             System.out.println(e.toString());
         }
     }
+
 }

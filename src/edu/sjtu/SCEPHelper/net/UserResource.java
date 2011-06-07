@@ -22,4 +22,5 @@ public interface UserResource {
 
     @Delete
     public void remove();
+
 }

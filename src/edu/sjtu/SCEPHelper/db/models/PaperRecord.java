@@ -1,13 +1,18 @@
 package edu.sjtu.SCEPHelper.db.models;
 
-import com.j256.ormlite.dao.CloseableIterator;
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.DatabaseTable;
+import edu.sjtu.SCEPHelper.db.DBHelper;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.io.Serializable;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,8 +36,7 @@ public class PaperRecord implements Serializable {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private User user;
 
-    @ForeignCollectionField
-    private ForeignCollection<Answer> answers;
+    public ArrayList<Answer> serializableAnswers = new ArrayList<Answer>();
 
     PaperRecord(){
 
@@ -44,18 +48,24 @@ public class PaperRecord implements Serializable {
     }
 
     private int calcTotalPoint(){
-        CloseableIterator<Answer> iterator = answers.closeableIterator();
+        Iterator<Answer> iterator = serializableAnswers.iterator();
         totalPoint = 0 ;
         while(iterator.hasNext()){
             Answer answer = iterator.next();
             totalPoint += answer.getComment().getGainPoint();
         }
-        try{
-            iterator.close();
-        }catch (SQLException e){
-            System.out.println(e.toString());
-        }
         return totalPoint;
+    }
+
+    public static ArrayList<PaperRecord> queryByPaper(Paper paper) throws Exception{
+        QueryBuilder<PaperRecord, Integer> queryBuilder = DBHelper.getDbHelper().getPaperRecordIntegerDao().queryBuilder();
+        Where<PaperRecord, Integer> where = queryBuilder.where();
+        SelectArg selectArg = new SelectArg();
+        where.eq("paper_id", selectArg);
+        PreparedQuery<PaperRecord> preparedQuery = queryBuilder.prepare();
+
+        selectArg.setValue(paper.getId());
+        return (ArrayList<PaperRecord>)DBHelper.getDbHelper().getPaperRecordIntegerDao().query(preparedQuery);
     }
 
     public int getId() {
@@ -74,8 +84,12 @@ public class PaperRecord implements Serializable {
         return user;
     }
 
-    public ForeignCollection<Answer> getAnswers() {
-        return answers;
+    public ArrayList<Answer> getSerializableAnswers() {
+        return serializableAnswers;
+    }
+
+    public void setSerializableAnswers(ArrayList<Answer> serializableAnswers) {
+        this.serializableAnswers = serializableAnswers;
     }
 
     public void setId(int id) {
@@ -94,7 +108,4 @@ public class PaperRecord implements Serializable {
         this.user = user;
     }
 
-    public void setAnswers(ForeignCollection<Answer> answers) {
-        this.answers = answers;
-    }
 }

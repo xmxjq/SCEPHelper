@@ -125,7 +125,7 @@ public class PaperServerResource extends LoginRequiredResource implements PaperR
             updateCategories(paper.getSerializableCategories(), paper);
             DBHelper.getDbHelper().getPaperIntegerDao().update(paper);
         }catch (Exception e){
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -162,4 +162,5 @@ public class PaperServerResource extends LoginRequiredResource implements PaperR
             throw new ResourceException(Status.SERVER_ERROR_INTERNAL, e);
         }
     }
+
 }

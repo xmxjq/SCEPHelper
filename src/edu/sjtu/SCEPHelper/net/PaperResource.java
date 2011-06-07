@@ -22,4 +22,5 @@ public interface PaperResource {
 
     @Delete
     public void remove() throws ResourceException;
+
 }
