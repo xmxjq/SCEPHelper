@@ -1,4 +1,4 @@
-package edu.sjtu.SCEPHelper.db.models;
+﻿package edu.sjtu.SCEPHelper.db.models;
 
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
@@ -11,7 +11,6 @@ import com.j256.ormlite.table.DatabaseTable;
 import edu.sjtu.SCEPHelper.db.DBHelper;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import sun.jvm.hotspot.code.Location;
 
 import java.io.Serializable;
 import java.util.ArrayList;

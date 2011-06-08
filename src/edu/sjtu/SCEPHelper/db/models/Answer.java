@@ -1,4 +1,4 @@
-package edu.sjtu.SCEPHelper.db.models;
+﻿package edu.sjtu.SCEPHelper.db.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -7,7 +7,6 @@ import com.j256.ormlite.stmt.SelectArg;
 import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.DatabaseTable;
 import edu.sjtu.SCEPHelper.db.DBHelper;
-import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 
 import java.io.Serializable;
 import java.sql.Array;
