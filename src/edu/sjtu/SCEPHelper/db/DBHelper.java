@@ -15,14 +15,15 @@ import java.sql.SQLException;
  * Created by IntelliJ IDEA.
  * User: gsj987
  * Date: 11-5-23
- * Time: 下午4:57
+ * Time: ??4:57
  * To change this template use File | Settings | File Templates.
+ * Test updated from XJQ 2014.06.11
  */
 public class DBHelper {
     private final static String DATABASE_URL = "jdbc:h2:mem:SCEPHelper";
     private static DBHelper dbHelper = null;
 
-    // 设定各种Dao
+    // ????Dao
     private Dao<Paper, Integer> paperIntegerDao;
 	private Dao<Category, Integer> categoryIntegerDao;
     private Dao<Question, Integer> questionIntegerDao;
@@ -40,7 +41,7 @@ public class DBHelper {
 
     public DBHelper() throws Exception {
         connectionSource = new JdbcConnectionSource(DATABASE_URL);
-		// 初始化数据库和Dao
+		// ???????Dao
 		setupDatabase(connectionSource);
     }
 
@@ -62,7 +63,7 @@ public class DBHelper {
     }
 
     private void setupDatabase(ConnectionSource connectionSource) throws Exception {
-        // 初始化各种Dao
+        // ?????Dao
         paperIntegerDao = DaoManager.createDao(connectionSource, Paper.class);
         categoryIntegerDao = DaoManager.createDao(connectionSource, Category.class);
         questionIntegerDao = DaoManager.createDao(connectionSource, Question.class);
@@ -77,7 +78,7 @@ public class DBHelper {
 
 
 
-        // 创建表
+        // ???
         TableUtils.createTableIfNotExists(connectionSource, Paper.class);
         TableUtils.createTableIfNotExists(connectionSource, Category.class);
         TableUtils.createTableIfNotExists(connectionSource, Question.class);
@@ -88,7 +89,7 @@ public class DBHelper {
         TableUtils.createTableIfNotExists(connectionSource, Answer.class);
         TableUtils.createTableIfNotExists(connectionSource, Comment.class);
         TableUtils.createTableIfNotExists(connectionSource, User.class);
-        // 初始化一个管理员
+        // ????????
         initializeAdmin();
     }
 
@@ -96,12 +97,12 @@ public class DBHelper {
         try{
             User user = getUserByUsername("root");
             if (user==null){
-                userStringDao.create(new User("root", "root".hashCode(), "管理员", User.Group.HeadTeacher));
-                System.out.println("创建管理员");
-                userStringDao.create(new User("teacher", "treacher".hashCode(), "老师", User.Group.Teachers));
-                System.out.println("创建一个老师");
-                userStringDao.create(new User("student", "student".hashCode(), "学生", User.Group.Students));
-                System.out.println("创建一个学生");
+                userStringDao.create(new User("root", "root".hashCode(), "???", User.Group.HeadTeacher));
+                System.out.println("?????");
+                userStringDao.create(new User("teacher", "treacher".hashCode(), "??", User.Group.Teachers));
+                System.out.println("??????");
+                userStringDao.create(new User("student", "student".hashCode(), "??", User.Group.Students));
+                System.out.println("??????");
             }
         }catch (SQLException e){
             System.out.println(e.toString());
@@ -119,7 +120,7 @@ public class DBHelper {
                 return user;
             }
         } catch (Exception e){
-            throw new Exception("用户不存在");
+            throw new Exception("?????");
         }
         return null;
     }
@@ -161,10 +162,10 @@ public class DBHelper {
     }
 
     public static void main(String args[]){
-        // 测试数据
+        // ????
         try{
             DBHelper dbh = getDbHelper();
-            System.out.println("查找管理员");
+            System.out.println("?????");
             User root = dbh.getUserStringDao().queryForId("root");
             System.out.println(String.format("username:\t %s\npassword:\t %d\ngroup:\t %s\n",
                         root.getUsername(),
